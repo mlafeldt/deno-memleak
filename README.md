@@ -1,6 +1,6 @@
 # Deno memory leak example
 
-This repository contains a minimal example that shows that the Deno runtime leaks memory over time. We see the same behaviour in a server process that handles many FaaS calls.
+This repository contains a minimal example demonstrating that the Deno runtime leaks memory over time. We see the same behavior in a server process that handles many FaaS calls.
 
 Steps to reproduce:
 
@@ -79,3 +79,8 @@ std::rt::lang_start::heecb2d90a5facc89
 main
 start
 ```
+
+Related GitHub issues:
+
+- <https://github.com/denoland/deno/issues/24380>
+- <https://github.com/denoland/deno_core/pull/714> / <https://github.com/denoland/deno/pull/24169>
