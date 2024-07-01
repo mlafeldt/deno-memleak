@@ -1,5 +1,9 @@
 # Deno memory leak example
 
+This repository contains a minimal example that shows that the Deno runtime leaks memory over time. We see the same behaviour in a server process that handles many FaaS calls.
+
+Steps to reproduce:
+
 Build, [sign](https://github.com/mlafeldt/dotfiles/blob/main/bin/codesign-for-instruments), and run the binary with the following command:
 
 ```
