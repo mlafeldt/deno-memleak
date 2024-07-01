@@ -1,9 +1,8 @@
 use std::path::Path;
-use std::rc::Rc;
 
 use deno_runtime::{
-    deno_core::{error::AnyError, FsModuleLoader, ModuleSpecifier},
-    deno_permissions::PermissionsContainer,
+    deno_core::{error::AnyError, ModuleSpecifier},
+    deno_permissions::{Permissions, PermissionsContainer},
     worker::{MainWorker, WorkerOptions},
 };
 use tokio::time::{sleep, Duration};
@@ -22,11 +21,8 @@ async fn run_js() -> Result<(), AnyError> {
     let main_module = ModuleSpecifier::from_file_path(js_path).unwrap();
     let mut worker = MainWorker::bootstrap_from_options(
         main_module.clone(),
-        PermissionsContainer::allow_all(),
-        WorkerOptions {
-            module_loader: Rc::new(FsModuleLoader),
-            ..Default::default()
-        },
+        PermissionsContainer::new(Permissions::none_without_prompt()),
+        WorkerOptions::default(),
     );
     worker.execute_main_module(&main_module).await?;
     worker.run_event_loop(false).await?;
