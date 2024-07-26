@@ -18,7 +18,7 @@ The result will look like this:
 
 Fixed leaks:
 
-- ~~[Memory leak when transpiling modules during bootstrap](https://github.com/denoland/deno/issues/24380)~~ Fixed in Deno 1.45!
+- ~~[Memory leak when transpiling modules during bootstrap](https://github.com/denoland/deno/issues/24380)~~ Fixed in Deno 1.45.0!
 
 Open leaks:
 
