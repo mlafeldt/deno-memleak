@@ -5,15 +5,41 @@ use deno_runtime::{
     deno_permissions::{Permissions, PermissionsContainer},
     worker::{MainWorker, WorkerOptions},
 };
+use structopt::StructOpt;
 use tokio::time::{sleep, Duration};
+
+#[derive(StructOpt, Debug)]
+#[structopt(name = "deno-memleak")]
+struct Opt {
+    #[structopt(
+        short,
+        long,
+        default_value = "0",
+        help = "Optional startup delay in seconds"
+    )]
+    delay: u64,
+
+    #[structopt(
+        short,
+        long,
+        default_value = "10",
+        help = "Number of times to run the JS code"
+    )]
+    count: u64,
+}
 
 #[tokio::main]
 async fn main() -> Result<(), AnyError> {
-    sleep(Duration::from_secs(10)).await;
-    loop {
+    let opt = Opt::from_args();
+
+    sleep(Duration::from_secs(opt.delay)).await;
+
+    for _ in 1..=opt.count {
         run_js().await?;
         sleep(Duration::from_secs(1)).await;
     }
+
+    Ok(())
 }
 
 async fn run_js() -> Result<(), AnyError> {
