@@ -1,6 +1,8 @@
 # Tracking Deno memory leaks
 
-This repository contains a minimal example demonstrating that the Deno runtime leaks memory over time. We see the same behavior in a server process that handles many FaaS calls.
+This repository contains a minimal example that shows whether a particular Deno runtime version has memory leaks or not.
+
+No leaks are especially desirable in an environment where the same server process handles many FaaS calls.
 
 Steps to reproduce:
 
