@@ -14,7 +14,7 @@ struct Opt {
     #[structopt(
         short,
         long,
-        default_value = "0",
+        default_value = "10",
         help = "Optional startup delay in seconds"
     )]
     delay: u64,
@@ -22,7 +22,7 @@ struct Opt {
     #[structopt(
         short,
         long,
-        default_value = "10",
+        default_value = "30",
         help = "Number of times to run the JS code"
     )]
     count: u64,
