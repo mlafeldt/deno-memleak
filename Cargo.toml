@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-# Deno v1.46.1
-deno_runtime = "0.175.0"
+# Deno v1.46.2
+deno_runtime = "0.176.0"
 structopt = "0.3"
 tokio = { version = "1", features = ["full"] }
