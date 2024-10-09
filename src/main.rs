@@ -1,9 +1,11 @@
-use std::path::Path;
+use std::{path::Path, rc::Rc, sync::Arc};
 
 use deno_runtime::{
-    deno_core::{error::AnyError, ModuleSpecifier},
-    deno_permissions::{Permissions, PermissionsContainer},
-    worker::{MainWorker, WorkerOptions},
+    deno_core::{error::AnyError, FsModuleLoader, ModuleSpecifier},
+    deno_fs::RealFs,
+    deno_permissions::PermissionsContainer,
+    permissions::RuntimePermissionDescriptorParser,
+    worker::{MainWorker, WorkerOptions, WorkerServiceOptions},
 };
 use structopt::StructOpt;
 use tokio::time::{sleep, Duration};
@@ -45,9 +47,24 @@ async fn main() -> Result<(), AnyError> {
 async fn run_js() -> Result<(), AnyError> {
     let js_path = Path::new(env!("CARGO_MANIFEST_DIR")).join("main.js");
     let main_module = ModuleSpecifier::from_file_path(js_path).unwrap();
+    let fs = Arc::new(RealFs);
+    let permission_desc_parser = Arc::new(RuntimePermissionDescriptorParser::new(fs.clone()));
     let mut worker = MainWorker::bootstrap_from_options(
         main_module.clone(),
-        PermissionsContainer::new(Permissions::none_without_prompt()),
+        WorkerServiceOptions {
+            blob_store: Default::default(),
+            broadcast_channel: Default::default(),
+            feature_checker: Default::default(),
+            fs,
+            module_loader: Rc::new(FsModuleLoader),
+            node_services: Default::default(),
+            npm_process_state_provider: Default::default(),
+            permissions: PermissionsContainer::allow_all(permission_desc_parser),
+            root_cert_store_provider: Default::default(),
+            shared_array_buffer_store: Default::default(),
+            compiled_wasm_module_store: Default::default(),
+            v8_code_cache: Default::default(),
+        },
         WorkerOptions::default(),
     );
     worker.execute_main_module(&main_module).await?;
