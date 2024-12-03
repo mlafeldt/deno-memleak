@@ -61,6 +61,7 @@ async fn run_js() -> Result<(), AnyError> {
             npm_process_state_provider: Default::default(),
             permissions: PermissionsContainer::allow_all(permission_desc_parser),
             root_cert_store_provider: Default::default(),
+            fetch_dns_resolver: Default::default(),
             shared_array_buffer_store: Default::default(),
             compiled_wasm_module_store: Default::default(),
             v8_code_cache: Default::default(),
